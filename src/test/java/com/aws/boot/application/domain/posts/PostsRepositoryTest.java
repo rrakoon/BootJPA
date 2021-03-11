@@ -23,15 +23,15 @@ public class PostsRepositoryTest {
     }
 
     @Test
-    public void notice_call(){
+    public void notice_call() {
         //given
         String title = "테스트 게시글";
         String content = "테스트 본문";
 
         postsRepository.save(Posts.builder() //postsRepository.save - posts테이블에 insert/update실행. id가 있으면 update, 없으면 insert쿼리 실행
-        .title(title)
-        .content(content)
-        .author("rrakoon@gmail.com")
+                .title(title)
+                .content(content)
+                .author("rrakoon@gmail.com")
                 .build());
 
         //when
@@ -41,7 +41,7 @@ public class PostsRepositoryTest {
         Posts posts = postsList.get(0);
         assertThat(posts.getTitle()).isEqualTo(title);
         assertThat(posts.getContent()).isEqualTo(content);
-        
+
     }
 
 }

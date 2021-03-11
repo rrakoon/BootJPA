@@ -25,19 +25,20 @@ public class HelloControllerTest {
                 .andExpect(content().string(hello)); //응답 본문 내용검증
 
     }
-     @Test
+
+    @Test
     public void helloDtoReturn() throws Exception {
         String name = "hello";
         int amount = 1000;
 
         mvc.perform(
-                    get("/hello/dto")
-                            .param("name", name)
-                            .param("amount", String.valueOf(amount)))
+                get("/hello/dto")
+                        .param("name", name)
+                        .param("amount", String.valueOf(amount)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is(name)))
                 .andExpect(jsonPath("$.amount", is(amount)));
     }
-    
-    
+
+
 }
