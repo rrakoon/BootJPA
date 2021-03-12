@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface PostsRepository extends JpaRepository<Posts, Long> { //<Entity class, PK type>
-     @Query("SELECT p FROM Posts p ORDER BY p.id DESC")
+       @Query("SELECT p FROM Posts p ORDER BY p.id DESC")
     List<Posts> findAllDesc();
 }

@@ -1,5 +1,6 @@
 package com.aws.boot.application.domain.posts;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.*;
@@ -9,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootApplication
 @ExtendWith(SpringExtension.class)
@@ -29,10 +31,7 @@ public class PostsRepositoryTest {
         String content = "테스트 본문";
 
         postsRepository.save(Posts.builder() //postsRepository.save - posts테이블에 insert/update실행. id가 있으면 update, 없으면 insert쿼리 실행
-                .title(title)
-                .content(content)
-                .author("rrakoon@gmail.com")
-                .build());
+                .title(title).content(content).author("rrakoon@gmail.com").build());
 
         //when
         List<Posts> postsList = postsRepository.findAll(); //모든데이터 조회메서드
@@ -42,6 +41,24 @@ public class PostsRepositoryTest {
         assertThat(posts.getTitle()).isEqualTo(title);
         assertThat(posts.getContent()).isEqualTo(content);
 
+    }
+    
+    @Test
+    public void BaseTimeEntity_insert() {
+        //given
+        LocalDateTime now = LocalDateTime.now();
+        postsRepository.save(Posts.builder().title("title").content("content").author("author").build());
+        //when
+        List<Posts> postsList = postsRepository.findAll();
+
+        //then
+        Posts posts = postsList.get(0);
+
+        System.out.println(
+                ">>>>>>>>> createDate=" + posts.getCreatedDate() + ", modifiedDate=" + posts.getModifiedDate());
+
+        assertThat(posts.getCreatedDate().isAfter(now));
+        assertThat(posts.getModifiedDate().isAfter(now));
     }
 
 }
